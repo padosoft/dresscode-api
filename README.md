@@ -1,2 +1,1 @@
-# dresscode-api
-Implements DreesCode.cloud API
+# PHP agnostinc package Implements DreesCode.cloud API
