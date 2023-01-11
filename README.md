@@ -1,1 +1,1 @@
-# PHP agnostinc package Implements DreesCode.cloud API
+# PHP agnostic package implements DreesCode.cloud API
