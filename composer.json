@@ -1,0 +1,31 @@
+{
+    "name": "padosoft/dresscode-api",
+    "description": "DressCodeApi API",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Padosoft\\DressCodeApi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Padosoft\\DressCodeApi\\tests\\": "tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "Marco Bramato",
+            "email": "marco@bramato.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0@dev",
+        "fakerphp/faker": "2.x-dev"
+    }
+}
