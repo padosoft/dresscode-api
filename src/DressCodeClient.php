@@ -39,10 +39,34 @@ class DressCodeClient
     public function getNewItemSold(?string $productID = null, ?string $channelKey = null): mixed
     {
         $endpoint = DressCodeEndPoints::create()->getNewItemSoldEndpoint($this->key->client_key, $productID, $channelKey);
-        $response = $this->execute()->get($endpoint);
-        return json_decode($response->getBody()->getContents(), true);
+        return $this->responseGet($endpoint);
     }
 
+    public function urlWithoutQuery(string $endpoint): string
+    {
+
+// Separo l'URL dalla query string
+        list($urlWithoutQuery, $queryString) = explode('?', $endpoint, 2);
+
+// Genero un array associativo con i parametri della query string
+        parse_str($queryString, $query);
+        return $urlWithoutQuery;
+    }
+    public function queryFromUrl(string $endpoint): array
+    {
+
+// Separo l'URL dalla query string
+        list($urlWithoutQuery, $queryString) = explode('?', $endpoint, 2);
+
+// Genero un array associativo con i parametri della query string
+        parse_str($queryString, $query);
+        return $query;
+    }
+
+    public function responseGet($endpoint){
+        $response = $this->execute()->get($this->urlWithoutQuery($endpoint), $this->queryFromUrl($endpoint));
+        return json_decode($response->getBody()->getContents(), true);
+    }
 
 
 
