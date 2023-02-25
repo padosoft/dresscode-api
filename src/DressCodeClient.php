@@ -5,6 +5,7 @@ use GuzzleHttp\Client;
 class DressCodeClient
 {
 
+    protected Client $client;
 
     protected DressCodeKey $key;
     public function __construct(DressCodeKey $key)
@@ -17,13 +18,13 @@ class DressCodeClient
         return new DressCodeClient($key);
     }
 
-    public function client(): string
+    public function execute(): Client
     {
         $this->client = new Client(
             [
                 'base_uri' => DressCodeEndPoints::BASE_URL,
             ]);
-        return '';
+        return $this->client;
     }
 
     /**
@@ -33,10 +34,13 @@ class DressCodeClient
      *
      * @return mixed
      * @throws GuzzleException
+     * @throws \Exception
      */
-    public function makeRequest($method, $type, array $options = []): mixed
+    public function getNewItemSold(?string $productID = null, ?string $channelKey = null): mixed
     {
-return '';
+        $endpoint = DressCodeEndPoints::create()->getNewItemSoldEndpoint($this->key->client_key, $productID, $channelKey);
+        $response = $this->execute()->get($endpoint);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
 

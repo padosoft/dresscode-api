@@ -96,7 +96,7 @@ class DressCodeEndPoints
      *
      * @throws Exception Se l'endpoint richiesto non esiste
      */
-    public function getNewItemSoldEndpoint(?string $productID = null, ?string $channelKey = null): string
+    public function getNewItemSoldEndpoint(?string $client,?string $productID = null, ?string $channelKey = null): string
     {
         if ($productID !== null) {
             $this->params['productID'] = $productID;
@@ -104,6 +104,10 @@ class DressCodeEndPoints
 
         if ($channelKey !== null) {
             $this->params['channelKey'] = $channelKey;
+        }
+
+        if ($client !== null) {
+            $this->params['client'] = $client;
         }
 
         return $this->getEndpoint('get.new_item_sold');
@@ -117,10 +121,13 @@ class DressCodeEndPoints
      *
      * @throws Exception Se l'endpoint richiesto non esiste
      */
-    public function postNewItemSoldEndpoint(?string $channelKey = null): string
+    public function postNewItemSoldEndpoint(?string $client, ?string $channelKey = null): string
     {
         if ($channelKey !== null) {
             $this->params['channelKey'] = $channelKey;
+        }
+        if ($client !== null) {
+            $this->params['client'] = $client;
         }
 
         return $this->getEndpoint('post.new_item_sold');
