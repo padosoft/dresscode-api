@@ -21,8 +21,9 @@ class DressCodeClient
     {
         $this->client = new Client(
             [
-                'base_uri' => self::BASE_URL,
+                'base_uri' => DressCodeEndPoints::BASE_URL,
             ]);
+        return '';
     }
 
     /**
@@ -35,9 +36,7 @@ class DressCodeClient
      */
     public function makeRequest($method, $type, array $options = []): mixed
     {
-        $path =  ($type, $options);
-        $response = $this->client->request($method, $path, $options);
-        return json_decode($response->getBody()->getContents(), true);
+return '';
     }
 
 
