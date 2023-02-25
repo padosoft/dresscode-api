@@ -1,5 +1,7 @@
 <?php
 namespace Padosoft\DressCodeApi;
+use Exception;
+
 class DressCodeEndPoints
 {
     //costant url base
@@ -14,18 +16,16 @@ class DressCodeEndPoints
         ]
     ];
 
-    public string $type;
     public array $params;
 
-    public function __construct(string $type,array $params=[])
+    public function __construct(array $params=[])
     {
-        $this->type = $type;
         $this->params = $params;
     }
 
-    public static function get(string $type,array $params=[]): DressCodeEndPoints
+    public static function get(array $params=[]): DressCodeEndPoints
     {
-        return new DressCodeEndPoints($type,$params);
+        return new DressCodeEndPoints($params);
     }
 
     //Recupera tutti gli endpoint
@@ -47,6 +47,41 @@ class DressCodeEndPoints
             $url = str_replace('{'.$key.'}',$value,$url);
         }
         return $url;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getNewItemSoldEndPoint(string $product_ID = null,string $channelKey = null):string{
+        //if $product_ID is not empty, replace params['productID']
+        if(!empty($product_ID)){
+            $this->params['productID'] = $product_ID;
+        }
+        //if $channelKey is not empty, replace params['channelKey']
+        if(!empty($channelKey)){
+            $this->params['channelKey'] = $channelKey;
+        }
+
+        try {
+            $endpoint = $this->endPoint('get.new_item_sold');
+        }catch (Exception $e){
+            throw new Exception($e->getMessage());
+        }
+
+        return $endpoint;
+    }
+
+    public function postNewItemSoldEndpoint(string $channelKey = null):string{
+        //if $channelKey is not empty, replace params['channelKey']
+        if(!empty($channelKey)){
+            $this->params['channelKey'] = $channelKey;
+        }
+        try {
+            $endpoint = $this->endPoint('post.new_item_sold');
+        }catch (Exception $e){
+            throw new Exception($e->getMessage());
+        }
+        return $endpoint;
     }
 
 }
