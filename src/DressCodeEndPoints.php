@@ -1,87 +1,128 @@
 <?php
 namespace Padosoft\DressCodeApi;
+
 use Exception;
 
+/**
+ * Classe che gestisce gli endpoint della API DressCode
+ */
 class DressCodeEndPoints
 {
-    //costant url base
+    // Costante URL base
     const BASE_URL = 'https://api.dresscode.cloud/channels/v2/api/';
-    //configurazione endpoint
+
+    /**
+     * Definizione degli endpoint disponibili
+     */
     const END_POINTS = [
-        'post'=>[
+        'post' => [
             'new_item_sold' => 'feeds/en/clients/{client}/orders/items?channelKey={channelKey}',
         ],
-        'get'=>[
-            'new_item_sold' => 'feeds/en/clients/{client}/products/{productID}?channelKey={channelKey}'
-        ]
+        'get' => [
+            'new_item_sold' => 'feeds/en/clients/{client}/products/{productID}?channelKey={channelKey}',
+        ],
     ];
 
-    public array $params;
+    /**
+     * Parametri opzionali per gli endpoint
+     */
+    private array $params;
 
-    public function __construct(array $params=[])
+    /**
+     * Costruttore della classe
+     *
+     * @param array $params Array associativo di parametri opzionali
+     */
+    public function __construct(array $params = [])
     {
         $this->params = $params;
     }
 
-    public static function get(array $params=[]): DressCodeEndPoints
+    /**
+     * Metodo per creare una nuova istanza della classe
+     *
+     * @param array $params Array associativo di parametri opzionali
+     *
+     * @return DressCodeEndPoints
+     */
+    public static function create(array $params = []): DressCodeEndPoints
     {
         return new DressCodeEndPoints($params);
     }
 
-    //Recupera tutti gli endpoint
-    public function getAllEndPoints():array{
+    /**
+     * Metodo per recuperare tutti gli endpoint
+     *
+     * @return array Array associativo degli endpoint disponibili
+     */
+    public function getAllEndPoints(): array
+    {
         return self::END_POINTS;
     }
 
-    //Recupera un endpoint
-    public function endPoint($name):string{
-        //post.get_new_item_sold
-        $endpoints = explode('.',$name);
-        //check if exists
-        if(!isset(self::END_POINTS[$endpoints[0]][$endpoints[1]])){
+    /**
+     * Metodo per recuperare un endpoint specifico
+     *
+     * @param string $endpointName Nome dell'endpoint richiesto
+     *
+     * @return string URL dell'endpoint richiesto
+     *
+     * @throws Exception Se l'endpoint richiesto non esiste
+     */
+    public function getEndpoint(string $endpointName): string
+    {
+        $endpointParts = explode('.', $endpointName);
+
+        if (!isset(self::END_POINTS[$endpointParts[0]][$endpointParts[1]])) {
             throw new Exception('Endpoint not found');
         }
-        $url = self::BASE_URL. self::END_POINTS[$endpoints[0]][$endpoints[1]];
-        //replace params
+
+        $endpointUrl = self::BASE_URL . self::END_POINTS[$endpointParts[0]][$endpointParts[1]];
+
         foreach ($this->params as $key => $value) {
-            $url = str_replace('{'.$key.'}',$value,$url);
+            $endpointUrl = str_replace('{' . $key . '}', $value, $endpointUrl);
         }
-        return $url;
+
+        return $endpointUrl;
     }
 
     /**
-     * @throws Exception
+     * Metodo per recuperare l'endpoint "new_item_sold" di tipo GET
+     *
+     * @param string|null $productID Identificativo del prodotto (opzionale)
+     * @param string|null $channelKey Chiave del canale (opzionale)
+     *
+     * @return string URL dell'endpoint richiesto
+     *
+     * @throws Exception Se l'endpoint richiesto non esiste
      */
-    public function getNewItemSoldEndPoint(string $product_ID = null,string $channelKey = null):string{
-        //if $product_ID is not empty, replace params['productID']
-        if(!empty($product_ID)){
-            $this->params['productID'] = $product_ID;
+    public function getNewItemSoldEndpoint(?string $productID = null, ?string $channelKey = null): string
+    {
+        if ($productID !== null) {
+            $this->params['productID'] = $productID;
         }
-        //if $channelKey is not empty, replace params['channelKey']
-        if(!empty($channelKey)){
+
+        if ($channelKey !== null) {
             $this->params['channelKey'] = $channelKey;
         }
 
-        try {
-            $endpoint = $this->endPoint('get.new_item_sold');
-        }catch (Exception $e){
-            throw new Exception($e->getMessage());
-        }
-
-        return $endpoint;
+        return $this->getEndpoint('get.new_item_sold');
     }
-
-    public function postNewItemSoldEndpoint(string $channelKey = null):string{
-        //if $channelKey is not empty, replace params['channelKey']
-        if(!empty($channelKey)){
+    /**
+     * Metodo per recuperare l'endpoint "new_item_sold" di tipo POST
+     *
+     * @param string|null $channelKey Chiave del canale (opzionale)
+     *
+     * @return string URL dell'endpoint richiesto
+     *
+     * @throws Exception Se l'endpoint richiesto non esiste
+     */
+    public function postNewItemSoldEndpoint(?string $channelKey = null): string
+    {
+        if ($channelKey !== null) {
             $this->params['channelKey'] = $channelKey;
         }
-        try {
-            $endpoint = $this->endPoint('post.new_item_sold');
-        }catch (Exception $e){
-            throw new Exception($e->getMessage());
-        }
-        return $endpoint;
-    }
 
+        return $this->getEndpoint('post.new_item_sold');
+    }
 }
