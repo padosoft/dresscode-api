@@ -20,6 +20,7 @@ class DressCodeEndPoints
         ],
         'get' => [
             'new_item_sold' => 'feeds/en/clients/{client}/products/{productID}?channelKey={channelKey}',
+            'status' => 'status'
         ],
     ];
 
@@ -131,5 +132,10 @@ class DressCodeEndPoints
         }
 
         return $this->getEndpoint('post.new_item_sold');
+    }
+
+    public function getStatusEndpoint(): string
+    {
+        return $this->getEndpoint('get.status');
     }
 }
