@@ -23,26 +23,37 @@ class DressCodeClient
         return new DressCodeClient($key);
     }
 
-    /**
-     * @param       $method
-     * @param       $path
-     * @param array $options
-     *
-     * @return mixed
-     * @throws GuzzleException
-     * @throws \Exception
-     */
-    public function getNewItemSold(?string $productID = null, ?string $channelKey = null): mixed
+
+    public function postOrderItems(?string $channelKey = null): mixed
     {
-        $endpoint = DressCodeEndPoints::create()->getNewItemSoldEndpoint($this->key->client_key, $productID, $channelKey);
+        $endpoint = DressCodeEndPoints::create()->postOrderItemsEndpoint($this->key->client_key, $channelKey);
+        return $this->responsePost($endpoint);
+    }
+
+    public function getProduct(?string $productID = null, ?string $channelKey = null): mixed
+    {
+        $endpoint = DressCodeEndPoints::create()->getProductEndpoint($this->key->client_key, $productID, $channelKey);
         return $this->responseGet($endpoint);
     }
 
-    public function postNewItemSold(?string $channelKey = null): mixed
+    public function getProducts(?string $channelKey = null): mixed
     {
-        $endpoint = DressCodeEndPoints::create()->postNewItemSoldEndpoint($this->key->client_key, $channelKey);
-        return $this->responsePost($endpoint);
+        $endpoint = DressCodeEndPoints::create()->getProductsEndpoint($this->key->client_key, $channelKey);
+        return $this->responseGet($endpoint);
     }
+
+    public function getExcelProducts(?string $channelKey = null): mixed
+    {
+        $endpoint = DressCodeEndPoints::create()->getExcelProductsEndpoint($this->key->client_key, $channelKey);
+        return $this->responseGet($endpoint);
+    }
+
+    public function getStocks(?string $channelKey = null): mixed
+    {
+        $endpoint = DressCodeEndPoints::create()->getStockEndpoint($this->key->client_key, $channelKey);
+        return $this->responseGet($endpoint);
+    }
+
 
     public function getStatus(): mixed
     {
@@ -50,16 +61,16 @@ class DressCodeClient
         return $this->responseGet($endpoint);
     }
 
+
     public function urlWithoutQuery(string $endpoint): string
     {
-
         // Separo l'URL dalla query string
         list($urlWithoutQuery, $queryString) = explode('?', $endpoint, 2);
-
         // Genero un array associativo con i parametri della query string
         parse_str($queryString, $query);
         return $urlWithoutQuery;
     }
+
     public function queryFromUrl(string $endpoint): array
     {
         // Separo l'URL dalla query string
@@ -69,7 +80,7 @@ class DressCodeClient
         return $query;
     }
 
-    public function responseGet($endpoint){
+    public function responseGet(string $endpoint, array $options = [],array $from =[]){
         $response = $this->client->get($this->urlWithoutQuery($endpoint), $this->queryFromUrl($endpoint));
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -78,5 +89,4 @@ class DressCodeClient
         $response = $this->client->post($this->urlWithoutQuery($endpoint), $this->queryFromUrl($endpoint));
         return json_decode($response->getBody()->getContents(), true);
     }
-
 }
