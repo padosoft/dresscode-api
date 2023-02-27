@@ -9,13 +9,14 @@ use Exception;
 class DressCodeEndPoints
 {
     // Costante URL base
-    const BASE_URL = 'https://api.dresscode.cloud/channels/v2/';
+    const BASE_URL = 'https://api.dresscode.cloud/hub/v1/';
 
     /**
      * Definizione degli endpoint disponibili
      */
     const END_POINTS = [
         'post' => [
+            'jwt_token' => 'tokens?hubKey={key}',
             'order_items' => 'api/feeds/en/clients/{client}/orders/items?channelKey={channelKey}',
         ],
         'get' => [
@@ -23,7 +24,7 @@ class DressCodeEndPoints
             'products' => 'api/feeds/en/clients/{client}/products?channelKey={channelKey}',
             'excel_products' => 'export/excel/en/products?channelKey={channelKey}&client={client}',
             'stock' => 'api/feeds/en/clients/{client}/stocks?channelKey={channelKey}',
-            'status' => 'api/status',
+            'status' => 'status',
         ],
     ];
 
@@ -109,6 +110,15 @@ class DressCodeEndPoints
         }
 
         return $this->getEndpoint('post.order_items');
+    }
+
+    public function postJwtEndpoint(?string $key): string
+    {
+        if ($key !== null) {
+            $this->params['key'] = $key;
+        }
+
+        return $this->getEndpoint('jwt_token');
     }
     /**
      * Metodo per recuperare l'endpoint "new_item_sold" di tipo GET

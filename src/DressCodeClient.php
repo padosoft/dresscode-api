@@ -1,5 +1,6 @@
 <?php
 namespace Padosoft\DressCodeApi;
+use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
 
 class DressCodeClient
@@ -11,9 +12,10 @@ class DressCodeClient
     public function __construct(DressCodeKey $key)
     {
         $this->key = $key;
+        $jwt = $this->key->jwt;
         $this->client = new Client(
             [
-                'base_uri' => DressCodeEndPoints::BASE_URL,
+                'Authorization' => 'Ocp-Apim-Subscription-Key ' . $jwt
             ]);
         return $this->client;
     }
@@ -71,7 +73,7 @@ class DressCodeClient
     public function urlWithoutQuery(string $endpoint): string
     {
         // Separo l'URL dalla query string
-        list($urlWithoutQuery, $queryString) = explode('?', $endpoint, 2);
+        [$urlWithoutQuery, $queryString] = explode('?', $endpoint, 2);
         // Genero un array associativo con i parametri della query string
         parse_str($queryString, $query);
         return $urlWithoutQuery;
@@ -80,7 +82,7 @@ class DressCodeClient
     public function queryFromUrl(string $endpoint): array
     {
         // Separo l'URL dalla query string
-        list($urlWithoutQuery, $queryString) = explode('?', $endpoint, 2);
+        [$urlWithoutQuery, $queryString] = explode('?', $endpoint, 2);
         // Genero un array associativo con i parametri della query string
         parse_str($queryString, $query);
         return $query;
