@@ -118,7 +118,7 @@ class DressCodeEndPoints
             $this->params['key'] = $key;
         }
 
-        return $this->getEndpoint('jwt_token');
+        return $this->getEndpoint('post.jwt_token');
     }
     /**
      * Metodo per recuperare l'endpoint "new_item_sold" di tipo GET
