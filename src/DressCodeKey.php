@@ -42,8 +42,8 @@ public function __construct(string $username, string $password, string $hub_key,
     $this->jwt = $data['data']['code'];
 }
 
-public static function create(string $username, string $password, string $hub_key): DressCodeKey
+public static function create(string $username, string $password, string $hub_key, string $subscription_key): DressCodeKey
 {
-    return new DressCodeKey($username, $password, $hub_key);
+    return new DressCodeKey($username, $password, $hub_key, $subscription_key);
 }
 }
