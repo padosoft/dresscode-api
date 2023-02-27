@@ -24,10 +24,16 @@ class DressCodeClient
     }
 
 
-    public function postOrderItems(?string $channelKey = null): mixed
+    public function postOrderItems(?string $channelKey = null, $json): mixed
     {
         $endpoint = DressCodeEndPoints::create()->postOrderItemsEndpoint($this->key->client_key, $channelKey);
-        return $this->responsePost($endpoint);
+        return $this->responsePost($endpoint, $json);
+    }
+
+    public function postUpload(?string $channelKey = null, $json): mixed
+    {
+        $endpoint = DressCodeEndPoints::create()->postOrderItemsEndpoint($this->key->client_key, $channelKey);
+        return $this->responsePost($endpoint, $json);
     }
 
     public function getProduct(?string $productID = null, ?string $channelKey = null): mixed
@@ -85,8 +91,8 @@ class DressCodeClient
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    public function responsePost($endpoint){
-        $response = $this->client->post($this->urlWithoutQuery($endpoint), $this->queryFromUrl($endpoint));
+    public function responsePost($endpoint, $json){
+        $response = $this->client->post($this->urlWithoutQuery($endpoint), $this->queryFromUrl($endpoint))->withBody($json);
         return json_decode($response->getBody()->getContents(), true);
     }
 }
