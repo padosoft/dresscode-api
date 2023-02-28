@@ -6,6 +6,9 @@ use GuzzleHttp\Client;
 class DressCodeClient
 {
 
+    use DressCodeCallTrait;
+
+
     protected Client $client;
 
     protected DressCodeKey $key;
@@ -24,51 +27,6 @@ class DressCodeClient
     {
         return new DressCodeClient($key);
     }
-
-
-    public function postOrderItems(?string $channelKey = null, $json): mixed
-    {
-        $endpoint = DressCodeEndPoints::create()->postOrderItemsEndpoint($this->key->client_key, $channelKey);
-        return $this->responsePost($endpoint, $json);
-    }
-
-    public function postUpload(?string $channelKey = null, $json): mixed
-    {
-        $endpoint = DressCodeEndPoints::create()->postOrderItemsEndpoint($this->key->client_key, $channelKey);
-        return $this->responsePost($endpoint, $json);
-    }
-
-    public function getProduct(?string $productID = null, ?string $channelKey = null): mixed
-    {
-        $endpoint = DressCodeEndPoints::create()->getProductEndpoint($this->key->client_key, $productID, $channelKey);
-        return $this->responseGet($endpoint);
-    }
-
-    public function getProducts(?string $channelKey = null): mixed
-    {
-        $endpoint = DressCodeEndPoints::create()->getProductsEndpoint($this->key->client_key, $channelKey);
-        return $this->responseGet($endpoint);
-    }
-
-    public function getExcelProducts(?string $channelKey = null): mixed
-    {
-        $endpoint = DressCodeEndPoints::create()->getExcelProductsEndpoint($this->key->client_key, $channelKey);
-        return $this->responseGet($endpoint);
-    }
-
-    public function getStocks(?string $channelKey = null): mixed
-    {
-        $endpoint = DressCodeEndPoints::create()->getStockEndpoint($this->key->client_key, $channelKey);
-        return $this->responseGet($endpoint);
-    }
-
-
-    public function getStatus(): mixed
-    {
-        $endpoint = DressCodeEndPoints::create()->getStatusEndpoint();
-        return $this->responseGet($endpoint);
-    }
-
 
     public function urlWithoutQuery(string $endpoint): string
     {

@@ -10,7 +10,7 @@ class DressCodeKey
 const API_VERSION = '2.0';
 
 protected string $username;
-public string $password;
+protected string $password;
 
 public string $jwt;
 

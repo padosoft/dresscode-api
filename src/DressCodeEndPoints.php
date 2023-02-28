@@ -8,6 +8,7 @@ use Exception;
  */
 class DressCodeEndPoints
 {
+    use DressCodeEndpointTrait;
     // Costante URL base
     const BASE_URL = 'https://api.dresscode.cloud/hub/v1/';
 
@@ -20,10 +21,7 @@ class DressCodeEndPoints
             'order_items' => 'api/feeds/en/clients/{client}/orders/items?channelKey={channelKey}',
         ],
         'get' => [
-            'product' => 'api/feeds/en/clients/{client}/products/{productID}?channelKey={channelKey}',
-            'products' => 'api/feeds/en/clients/{client}/products?channelKey={channelKey}',
-            'excel_products' => 'export/excel/en/products?channelKey={channelKey}&client={client}',
-            'stock' => 'api/feeds/en/clients/{client}/stocks?channelKey={channelKey}',
+            'orders' => 'eversell/orders/{orderID}?hubKey={hubKey}',
             'status' => 'status',
         ],
     ];
@@ -91,105 +89,5 @@ class DressCodeEndPoints
         return $endpointUrl;
     }
 
-    /**
-     * Metodo per recuperare l'endpoint "new_item_sold" di tipo POST
-     *
-     * @param string|null $channelKey Chiave del canale (opzionale)
-     *
-     * @return string URL dell'endpoint richiesto
-     *
-     * @throws Exception Se l'endpoint richiesto non esiste
-     */
-    public function postOrderItemsEndpoint(?string $client, ?string $channelKey = null): string
-    {
-        if ($channelKey !== null) {
-            $this->params['channelKey'] = $channelKey;
-        }
-        if ($client !== null) {
-            $this->params['client'] = $client;
-        }
-
-        return $this->getEndpoint('post.order_items');
-    }
-
-    public function postJwtEndpoint(?string $key): string
-    {
-        if ($key !== null) {
-            $this->params['key'] = $key;
-        }
-
-        return $this->getEndpoint('post.jwt_token');
-    }
-    /**
-     * Metodo per recuperare l'endpoint "new_item_sold" di tipo GET
-     *
-     * @param string|null $productID Identificativo del prodotto (opzionale)
-     * @param string|null $channelKey Chiave del canale (opzionale)
-     *
-     * @return string URL dell'endpoint richiesto
-     *
-     * @throws Exception Se l'endpoint richiesto non esiste
-     */
-    public function getProductEndpoint(?string $client,?string $productID = null, ?string $channelKey = null): string
-    {
-        if ($productID !== null) {
-            $this->params['productID'] = $productID;
-        }
-
-        if ($channelKey !== null) {
-            $this->params['channelKey'] = $channelKey;
-        }
-
-        if ($client !== null) {
-            $this->params['client'] = $client;
-        }
-
-        return $this->getEndpoint('get.product');
-    }
-
-    public function getProductsEndpoint(?string $client, ?string $channelKey = null): string
-    {
-
-        if ($channelKey !== null) {
-            $this->params['channelKey'] = $channelKey;
-        }
-
-        if ($client !== null) {
-            $this->params['client'] = $client;
-        }
-
-        return $this->getEndpoint('get.products');
-    }
-
-    public function getExcelProductsEndpoint(?string $client, ?string $channelKey = null): string
-    {
-
-        if ($channelKey !== null) {
-            $this->params['channelKey'] = $channelKey;
-        }
-
-        if ($client !== null) {
-            $this->params['client'] = $client;
-        }
-
-        return $this->getEndpoint('get.products');
-    }
-    public function getStockEndpoint(?string $client, ?string $channelKey = null): string
-    {
-
-        if ($channelKey !== null) {
-            $this->params['channelKey'] = $channelKey;
-        }
-
-        if ($client !== null) {
-            $this->params['client'] = $client;
-        }
-
-        return $this->getEndpoint('get.stocks');
-    }
-    public function getStatusEndpoint(): string
-    {
-        return $this->getEndpoint('get.status');
-    }
 
 }
