@@ -18,7 +18,7 @@ class DressCodeClient
         $jwt = $this->key->jwt;
         $this->client = new Client(
             [
-                'Authorization' => 'Ocp-Apim-Subscription-Key ' . $jwt
+                'Ocp-Apim-Subscription-Key' => $jwt
             ]);
         return $this->client;
     }
