@@ -10,6 +10,9 @@ class DressCodeKey
 protected string $username;
 protected string $password;
 
+protected string $hub_key;
+public string $subsciption_key;
+
 public string $jwt;
 
 public function __construct(string $username, string $password, string $hub_key, string $subscription_key)
@@ -17,6 +20,8 @@ public function __construct(string $username, string $password, string $hub_key,
     $this->username = $username;
     $this->password = $password;
     $this->hub_key = $hub_key;
+    $this->subsciption_key = $subscription_key;
+
 
     $url = DressCodeEndPoints::create()->postJwtEndpoint($hub_key);
     $headers = [

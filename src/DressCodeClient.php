@@ -23,6 +23,9 @@ class DressCodeClient
     {
         $this->key = $key;
         $this->putValueInHeaders('Authorization', $this->key->jwt);
+        $this->putValueInHeaders('Ocp-Apim-Subscription-Key', $this->key->subsciption_key);
+        $this->putValueInHeaders('Content-Type', 'application/json');
+        $this->putValueInHeaders('Cache-Control', 'no-cache');
         $this->client = new Client();
         return $this->client;
     }
