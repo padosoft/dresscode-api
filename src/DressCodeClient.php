@@ -12,14 +12,18 @@ class DressCodeClient
     protected Client $client;
 
     protected DressCodeKey $key;
+
+    protected array $headers = [];
+
+    protected function putValueInHeaders(string $key, string $value): void
+    {
+        $this->headers[$key] = $value;
+    }
     public function __construct(DressCodeKey $key)
     {
         $this->key = $key;
-        $jwt = $this->key->jwt;
-        $this->client = new Client(
-            [
-                'Ocp-Apim-Subscription-Key' => $jwt
-            ]);
+        $this->putValueInHeaders('Authorization', $this->key->jwt);
+        $this->client = new Client();
         return $this->client;
     }
 
@@ -47,12 +51,20 @@ class DressCodeClient
     }
 
     public function responseGet(string $endpoint, array $options = [],array $from =[]){
-        $response = $this->client->get($this->urlWithoutQuery($endpoint), $this->queryFromUrl($endpoint));
+        $options = [
+            'headers' => $this->headers,
+            'query' => $this->queryFromUrl($endpoint)
+        ];
+        $response = $this->client->request('get',$this->urlWithoutQuery($endpoint), $options);
         return json_decode($response->getBody()->getContents(), true);
     }
 
     public function responsePost($endpoint, $json){
-        $response = $this->client->post($this->urlWithoutQuery($endpoint), $this->queryFromUrl($endpoint))->withBody($json);
+        $options = [
+            'headers' => $this->headers,
+            'query' => $this->queryFromUrl($endpoint)
+        ];
+        $response = $this->client->request('post',$this->urlWithoutQuery($endpoint), $options)->withBody($json);
         return json_decode($response->getBody()->getContents(), true);
     }
 }

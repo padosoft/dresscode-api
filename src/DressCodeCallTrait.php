@@ -4,12 +4,9 @@ namespace Padosoft\DressCodeApi;
 
 trait DressCodeCallTrait
 {
-
-
-
-    public function postUpload(?string $channelKey = null, $json): mixed
+    public function postUpload(?string $hubkey = null, $json): mixed
     {
-        $endpoint = DressCodeEndPoints::create()->postOrderItemsEndpoint($this->key->client_key, $channelKey);
+        $endpoint = DressCodeEndPoints::create()->postProductsEndpoint($hubkey);
         return $this->responsePost($endpoint, $json);
     }
     public function getStatus(): mixed

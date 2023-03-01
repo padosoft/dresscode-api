@@ -18,7 +18,7 @@ class DressCodeEndPoints
     const END_POINTS = [
         'post' => [
             'jwt_token' => 'tokens?hubKey={key}',
-            'order_items' => 'api/feeds/en/clients/{client}/orders/items?channelKey={channelKey}',
+            'products' => 'uploads?hubKey={hubKey}',
         ],
         'get' => [
             'orders' => 'eversell/orders/{orderID}?hubKey={hubKey}',

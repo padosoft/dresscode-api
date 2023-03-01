@@ -25,4 +25,13 @@ trait DressCodeEndpointTrait
         return $this->getEndpoint('get.orders');
     }
 
+    public function postProductsEndpoint(?string $hubKey = null): string
+    {
+        if ($hubKey !== null) {
+            $this->params['hubKey'] = $hubKey;
+        }
+
+        return $this->getEndpoint('post.products');
+    }
+
 }

@@ -6,8 +6,6 @@ use GuzzleHttp\RequestOptions;
 
 class DressCodeKey
 {
-//costante versione API DressCode
-const API_VERSION = '2.0';
 
 protected string $username;
 protected string $password;
