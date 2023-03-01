@@ -22,7 +22,7 @@ class DressCodeClient
     public function __construct(DressCodeKey $key)
     {
         $this->key = $key;
-        $this->putValueInHeaders('Authorization', $this->key->jwt);
+        //$this->putValueInHeaders('Authorization', $this->key->jwt);
         $this->putValueInHeaders('Ocp-Apim-Subscription-Key', $this->key->subsciption_key);
         $this->putValueInHeaders('Content-Type', 'application/json');
         $this->putValueInHeaders('Cache-Control', 'no-cache');
