@@ -4,7 +4,7 @@ namespace Padosoft\DressCodeApi;
 
 trait DressCodeCallTrait
 {
-    public function postUpload(?string $hubkey = null, $json): mixed
+    public function postUpload(?string $hubkey, $json): mixed
     {
         $endpoint = DressCodeEndPoints::create()->postProductsEndpoint($hubkey);
         return $this->responsePost($endpoint, $json);

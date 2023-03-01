@@ -10,7 +10,7 @@ class DressCodeKey
 protected string $username;
 protected string $password;
 
-protected string $hub_key;
+public string $hub_key;
 public string $subsciption_key;
 
 public string $jwt;
