@@ -1,6 +1,5 @@
 <?php
 namespace Padosoft\DressCodeApi;
-use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
 
 class DressCodeClient
@@ -26,8 +25,6 @@ class DressCodeClient
         $this->putValueInHeaders('Ocp-Apim-Subscription-Key', $this->key->subsciption_key);
         $this->putValueInHeaders('Content-Type', 'application/json');
         $this->putValueInHeaders('Cache-Control', 'no-cache');
-        //echo array
-        print_r($this->headers);
 
         $this->client = new Client();
         return $this->client;
