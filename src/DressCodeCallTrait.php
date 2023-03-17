@@ -7,7 +7,6 @@ trait DressCodeCallTrait
     public function postUpload(?string $hubkey, $json): mixed
     {
         $endpoint = DressCodeEndPoints::create()->postProductsEndpoint($hubkey);
-        echo($json);
         return $this->responsePost($endpoint, $json);
     }
     public function getStatus(): mixed

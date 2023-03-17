@@ -65,9 +65,10 @@ class DressCodeClient
     public function responsePost($endpoint, $json){
         $options = [
             'headers' => $this->headers,
-            'query' => $this->queryFromUrl($endpoint)
+            'query' => $this->queryFromUrl($endpoint),
+            'body'  => $json
         ];
-        $response = $this->client->request('post',$this->urlWithoutQuery($endpoint), $options)->withBody($json);
+        $response = $this->client->post($this->urlWithoutQuery($endpoint), $options);
         return json_decode($response->getBody()->getContents(), true);
     }
 }
